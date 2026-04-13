@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NOVA SHOP — Modern Ecommerce Landing Page</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: rgba(255, 255, 255, 0.06);
+      --panel-strong: #0b1729;
+      --line: rgba(255, 255, 255, 0.1);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.68);
+      --cyan: #67e8f9;
+      --fuchsia: #e879f9;
+      --violet: #a78bfa;
+      --accent: #ffffff;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --max: 1200px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .page {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .bg-orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(80px);
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .orb-1 { top: -80px; left: -100px; width: 280px; height: 280px; background: rgba(103, 232, 249, 0.22); }
+    .orb-2 { top: 180px; right: -90px; width: 340px; height: 340px; background: rgba(232, 121, 249, 0.18); }
+    .orb-3 { bottom: -120px; left: 30%; width: 300px; height: 300px; background: rgba(167, 139, 250, 0.14); }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--cyan), var(--fuchsia));
+      box-shadow: 0 12px 30px rgba(103, 232, 249, 0.18);
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .brand-name { font-size: 18px; font-weight: 800; letter-spacing: 0.04em; }
+    .brand-sub { font-size: 12px; color: var(--muted); }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      color: rgba(255,255,255,0.8);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover { color: white; }
+
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+    .btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      cursor: pointer;
+      transition: transform .2s ease, background .2s ease, opacity .2s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: white; color: #09111f; font-weight: 700; }
+    .btn-secondary { background: rgba(255,255,255,0.06); color: white; border: 1px solid var(--line); }
+    .btn-icon { width: 44px; height: 44px; display: grid; place-items: center; padding: 0; }
+
+    .search-btn { display: none; }
+
+    .hero {
+      padding: 70px 0 30px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border: 1px solid rgba(103, 232, 249, 0.2);
+      background: rgba(103, 232, 249, 0.08);
+      border-radius: 999px;
+      color: #c7fbff;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3rem, 8vw, 5.2rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      max-width: 12ch;
+    }
+
+    .lead {
+      margin: 22px 0 0;
+      max-width: 640px;
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 18px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .stat, .card, .panel {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(18px);
+    }
+
+    .stat { padding: 18px; }
+    .stat strong { display: block; font-size: 28px; line-height: 1; margin-bottom: 8px; }
+    .stat span { color: var(--muted); font-size: 13px; }
+
+    .hero-art {
+      position: relative;
+      border-radius: 34px;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-art-inner {
+      border-radius: 28px;
+      background: #0f1c32;
+      padding: 18px;
+      overflow: hidden;
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: rgba(255,255,255,0.68);
+      font-size: 14px;
+    }
+
+    .offer-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .offer, .product-mini {
+      border-radius: 22px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .offer {
+      background: linear-gradient(135deg, rgba(103, 232, 249, 0.18), rgba(232, 121, 249, 0.16));
+    }
+
+    .offer h2 { margin: 6px 0 0; font-size: 2.6rem; line-height: 1; }
+    .offer p { margin: 10px 0 0; color: var(--muted); }
+
+    .product-mini .mini-top {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.8);
+    }
+
+    .art-box {
+      height: 110px;
+      margin-top: 24px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
+    }
+
+    .mini-product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .mini-product {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .mini-product .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .section {
+      padding: 24px 0 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: rgba(199, 251, 255, 0.72);
+      font-size: 12px;
+      margin: 0 0 10px;
+    }
+
+    .section h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.02;
+    }
+
+    .section-desc { max-width: 560px; color: var(--muted); line-height: 1.8; margin: 0; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+
+    .benefit, .category, .product, .review, .cta, .info-card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: var(--radius-xl);
+    }
+
+    .benefit, .category, .review, .info-card { padding: 22px; }
+    .benefit p, .category p, .review p, .info-card p { color: var(--muted); line-height: 1.75; }
+
+    .icon-box {
+      width: 46px; height: 46px; border-radius: 18px;
+      display: grid; place-items: center;
+      background: rgba(255,255,255,0.08);
+      margin-bottom: 16px;
+      font-size: 18px;
+    }
+
+    .category .explore, .product .add, .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      color: #c7fbff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .product {
+      padding: 14px;
+      background: #0b1729;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .image-placeholder {
+      height: 208px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
+      display: grid;
+      place-items: center;
+    }
+
+    .product-top {
+      display: flex; justify-content: space-between; gap: 12px; align-items: flex-start;
+      margin-top: 16px;
+    }
+
+    .rating-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; margin-top: 16px;
+    }
+
+    .badge-stars { color: #fbbf24; }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: #0b1729;
+    }
+
+    .check-dot {
+      width: 24px; height: 24px; border-radius: 999px;
+      flex: 0 0 auto;
+      display: grid; place-items: center;
+      background: rgba(103, 232, 249, 0.16);
+      color: #c7fbff;
+      font-size: 14px;
+      margin-top: 2px;
+    }
+
+    .steps { display: grid; gap: 12px; margin-top: 18px; }
+    .step { padding: 16px; border-radius: 18px; border: 1px solid var(--line); background: rgba(255,255,255,0.04); }
+    .step strong { display: block; margin-bottom: 6px; }
+    .step span { color: var(--muted); }
+
+    .review-stars { color: #fbbf24; letter-spacing: 2px; }
+
+    .cta {
+      margin: 10px 0 24px;
+      padding: 36px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(103, 232, 249, 0.18), rgba(255,255,255,0.05), rgba(232, 121, 249, 0.18));
+      box-shadow: var(--shadow);
+    }
+
+    .footer {
+      border-top: 1px solid var(--line);
+      background: rgba(0,0,0,0.18);
+      margin-top: 26px;
+      padding: 18px 0 24px;
+    }
+
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+      color: rgba(255,255,255,0.56);
+      font-size: 14px;
+    }
+
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a:hover { color: white; }
+
+    .mobile-toggle { display: none; }
+
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 1024px) {
+      .hero-grid, .split { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-3, .checklist { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .search-btn { display: none; }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links, .search-btn { display: none; }
+      .mobile-toggle { display: grid; }
+      .grid-4, .grid-3, .checklist, .stats, .offer-grid, .mini-product-grid { grid-template-columns: 1fr; }
+      .cta-row { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+      .section-title { flex-direction: column; align-items: flex-start; }
+      .offer h2 { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+
+    <header class="nav">
+      <div class="container nav-inner">
+        <a class="brand" href="#top">
+          <div class="logo">N</div>
+          <div>
+            <div class="brand-name">NOVA SHOP</div>
+            <div class="brand-sub">New-age ecommerce</div>
+          </div>
+        </a>
+
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#featured">Featured</a>
+          <a href="#categories">Categories</a>
+          <a href="#benefits">Benefits</a>
+          <a href="#reviews">Reviews</a>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="btn btn-secondary search-btn" type="button">Search</button>
+          <button class="btn btn-primary" type="button">Shop now</button>
+          <button class="btn btn-secondary btn-icon mobile-toggle" id="menuBtn" type="button">☰</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="reveal">
+            <div class="pill">✨ Fresh drops. Smart shopping. Fast delivery.</div>
+            <h1>Shop the future of everyday essentials.</h1>
+            <p class="lead">A sleek, high-conversion ecommerce landing page designed for modern brands, premium products, and fast-growing online stores.</p>
+            <div class="cta-row">
+              <button class="btn btn-primary" type="button">Start shopping →</button>
+              <button class="btn btn-secondary" type="button">Browse collections →</button>
+            </div>
+
+            <div class="stats">
+              <div class="stat"><strong>12K+</strong><span>Happy customers</span></div>
+              <div class="stat"><strong>4.9/5</strong><span>Average rating</span></div>
+              <div class="stat"><strong>48h</strong><span>Average delivery</span></div>
+              <div class="stat"><strong>100%</strong><span>Secure payments</span></div>
+            </div>
+          </div>
+
+          <div class="hero-art reveal">
+            <div class="hero-art-inner">
+              <div class="hero-top">
+                <span>Featured deal</span>
+                <span>New season</span>
+              </div>
+
+              <div class="offer-grid">
+                <div class="offer">
+                  <div class="tag">Limited offer</div>
+                  <h2>30% OFF</h2>
+                  <p>On selected premium gadgets.</p>
+                </div>
+                <div class="product-mini">
+                  <div class="mini-top">
+                    <span class="tag">Bestseller</span>
+                    <span>♡</span>
+                  </div>
+                  <div class="art-box">✦</div>
+                </div>
+              </div>
+
+              <div class="mini-product-grid">
+                <div class="mini-product">
+                  <div class="tag">Best Seller</div>
+                  <h3 style="margin: 10px 0 0;">Astra Wireless Headphones</h3>
+                  <div class="row"><strong>$129</strong><button class="btn btn-secondary" type="button">Add</button></div>
+                </div>
+                <div class="mini-product">
+                  <div class="tag">New Drop</div>
+                  <h3 style="margin: 10px 0 0;">Nova Smart Watch</h3>
+                  <div class="row"><strong>$179</strong><button class="btn btn-secondary" type="button">Add</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container grid-3 reveal">
+          <div class="benefit">
+            <div class="icon-box">🚚</div>
+            <h3>Fast delivery</h3>
+            <p>Same-day shipping on selected items and reliable nationwide delivery.</p>
+          </div>
+          <div class="benefit">
+            <div class="icon-box">🔒</div>
+            <h3>Secure checkout</h3>
+            <p>Encrypted payments with a smooth, trust-first shopping flow.</p>
+          </div>
+          <div class="benefit">
+            <div class="icon-box">✅</div>
+            <h3>Verified quality</h3>
+            <p>Curated products from trusted brands with easy returns and support.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="categories" class="section">
+        <div class="container">
+          <div class="section-title reveal">
+            <div>
+              <p class="eyebrow">Categories</p>
+              <h2>Shop by vibe, not by noise.</h2>
+            </div>
+            <p class="section-desc">Curated categories help people find the right products quickly while keeping the experience premium.</p>
+          </div>
+
+          <div class="grid-4 reveal">
+            <div class="category"><div class="icon-box">✦</div><h3>Tech</h3><p>Smart gear, accessories, and modern essentials.</p><div class="explore">Explore →</div></div>
+            <div class="category"><div class="icon-box">✦</div><h3>Home</h3><p>Minimal pieces that make your space feel premium.</p><div class="explore">Explore →</div></div>
+            <div class="category"><div class="icon-box">✦</div><h3>Fashion</h3><p>Clean, bold styles for everyday confidence.</p><div class="explore">Explore →</div></div>
+            <div class="category"><div class="icon-box">✦</div><h3>Wellness</h3><p>Self-care products built for daily routines.</p><div class="explore">Explore →</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="featured" class="section">
+        <div class="container">
+          <div class="section-title reveal">
+            <div>
+              <p class="eyebrow">Featured picks</p>
+              <h2>Products that sell themselves.</h2>
+            </div>
+            <button class="btn btn-secondary" type="button">View all products →</button>
+          </div>
+
+          <div class="grid-4 reveal">
+            <div class="product">
+              <div class="image-placeholder">🎧</div>
+              <div class="product-top"><div><div class="tag">Best Seller</div><h3>Astra Wireless Headphones</h3></div><strong>$129</strong></div>
+              <div class="rating-row"><span class="badge-stars">★ 4.9</span><button class="btn btn-primary" type="button">Add to cart</button></div>
+            </div>
+            <div class="product">
+              <div class="image-placeholder">⌚</div>
+              <div class="product-top"><div><div class="tag">New Drop</div><h3>Nova Smart Watch</h3></div><strong>$179</strong></div>
+              <div class="rating-row"><span class="badge-stars">★ 4.9</span><button class="btn btn-primary" type="button">Add to cart</button></div>
+            </div>
+            <div class="product">
+              <div class="image-placeholder">💡</div>
+              <div class="product-top"><div><div class="tag">Popular</div><h3>Luma Desk Lamp</h3></div><strong>$89</strong></div>
+              <div class="rating-row"><span class="badge-stars">★ 4.9</span><button class="btn btn-primary" type="button">Add to cart</button></div>
+            </div>
+            <div class="product">
+              <div class="image-placeholder">🍼</div>
+              <div class="product-top"><div><div class="tag">Eco Choice</div><h3>Pulse Bottle</h3></div><strong>$39</strong></div>
+              <div class="rating-row"><span class="badge-stars">★ 4.9</span><button class="btn btn-primary" type="button">Add to cart</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="benefits" class="section">
+        <div class="container split reveal">
+          <div class="panel" style="padding: 30px;">
+            <p class="eyebrow">Why customers stay</p>
+            <h2>Designed to convert and built to feel premium.</h2>
+            <div class="checklist">
+              <div class="check-item"><div class="check-dot">✓</div><p>Bold visuals that spotlight the product.</p></div>
+              <div class="check-item"><div class="check-dot">✓</div><p>Simple navigation with clear shopping paths.</p></div>
+              <div class="check-item"><div class="check-dot">✓</div><p>Trust signals placed where they matter most.</p></div>
+              <div class="check-item"><div class="check-dot">✓</div><p>Optimized call-to-actions at every step.</p></div>
+            </div>
+          </div>
+
+          <div class="panel" style="padding: 30px;">
+            <p class="eyebrow">What’s inside</p>
+            <h3 style="margin: 0; font-size: 2rem;">A complete ecommerce experience.</h3>
+            <div class="steps">
+              <div class="step"><strong>Hero with offer + CTA</strong><span>Strong first impression and clear action.</span></div>
+              <div class="step"><strong>Feature grid</strong><span>Communicates value fast.</span></div>
+              <div class="step"><strong>Product cards</strong><span>Makes shopping feel effortless.</span></div>
+              <div class="step"><strong>Social proof</strong><span>Builds confidence before checkout.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="reviews" class="section">
+        <div class="container">
+          <div class="section-title reveal">
+            <div>
+              <p class="eyebrow">Reviews</p>
+              <h2>Loved by modern shoppers.</h2>
+            </div>
+          </div>
+
+          <div class="grid-3 reveal">
+            <div class="review">
+              <div class="review-stars">★★★★★</div>
+              <p>“The store feels premium and easy to shop. The design makes products look more valuable instantly.”</p>
+              <strong>Damilola A.</strong>
+              <div style="color: rgba(255,255,255,0.55); font-size: 14px;">Fashion buyer</div>
+            </div>
+            <div class="review">
+              <div class="review-stars">★★★★★</div>
+              <p>“Clean, fast, and modern. The sections flow well and push me toward checkout without feeling forced.”</p>
+              <strong>Ayo M.</strong>
+              <div style="color: rgba(255,255,255,0.55); font-size: 14px;">Tech shopper</div>
+            </div>
+            <div class="info-card">
+              <div class="icon-box">★</div>
+              <h3>High trust, high clarity.</h3>
+              <p>Social proof, product cards, and strong CTAs all work together to keep the page simple and persuasive.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container cta reveal">
+          <p class="eyebrow">Ready to launch</p>
+          <h2>Build a landing page that feels futuristic, premium, and ready to sell.</h2>
+          <p class="section-desc" style="margin: 14px auto 0;">Use this as a polished starting point for a new age ecommerce brand, then swap in your own products, colors, and logo.</p>
+          <div class="cta-row" style="justify-content:center; margin-top: 28px;">
+            <button class="btn btn-primary" type="button">Launch store →</button>
+            <button class="btn btn-secondary" type="button">Talk to sales</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div>© 2026 NOVA SHOP. All rights reserved.</div>
+        <div class="footer-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Support</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const revealItems = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add('show');
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    revealItems.forEach((el) => observer.observe(el));
+
+    const menuBtn = document.getElementById('menuBtn');
+    let menuOpen = false;
+
+    menuBtn?.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      alert(menuOpen ? 'Mobile menu placeholder' : 'Mobile menu closed');
+    });
+  </script>
+</body>
+</html>
